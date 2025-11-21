@@ -82,7 +82,7 @@ export const updateProduct = async (req, res) => {
       data: updatedProduct,
     });
   } catch (err) {
-    console.log("Error al tratar de buscar el producto: ", err.message);
+    console.log("Error al tratar de modificar el producto: ", err.message);
     res.status(400).json({
       success: false,
       message: "Error en el servidor",
