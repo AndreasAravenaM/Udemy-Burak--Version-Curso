@@ -5,6 +5,7 @@ import morgan from "morgan";
 import cors from "cors";
 import productRoutes from "./routes/product.route.js";
 import { connectDB } from "./config/db.js";
+import { aj } from "./lib/arcjet.js";
 
 dotenv.config();
 
