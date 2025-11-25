@@ -103,7 +103,7 @@ export const updateProduct = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Producto actualizado",
-      data: updateProduct[0],
+      data: updatedProduct[0],
     });
   } catch (err) {
     console.log(`Error al tratar de buscar los producto: ${err.message}`);

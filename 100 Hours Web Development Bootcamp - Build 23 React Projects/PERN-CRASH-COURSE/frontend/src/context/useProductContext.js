@@ -49,6 +49,25 @@ export const useProductContext = create((set, get) => ({
     }
   },
 
+  getProduct: async (id) => {
+    set({ loading: true });
+
+    try {
+      const res = await axios.get(`${BASE_URL}/api/products/${id}`);
+      set({
+        currentProduct: res.data.data,
+        formData: res.data.data,
+        success: true,
+        message: null,
+      });
+    } catch (err) {
+      console.log(`Error al tratar de buscar el producto: ${err}`);
+      toast.error("Error en el servidor");
+    } finally {
+      set({ loading: false });
+    }
+  },
+
   createProduct: async (e) => {
     e.preventDefault();
     set({ loading: true });
@@ -56,12 +75,29 @@ export const useProductContext = create((set, get) => ({
     try {
       const { formData } = get();
       await axios.post(`${BASE_URL}/api/products`, formData);
-      resetForm();
       toast.success("Producto creado");
-      await get().fetchProducts();
+      await get().getProducts();
       get().resetForm();
+      document.getElementById("add_product_modal").close();
     } catch (err) {
       console.log(`Error al tratar de crear el producto: ${err}`);
+      toast.error("Error en el servidor");
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  updateProduct: async (id) => {
+    set({ loading: true });
+
+    try {
+      const { formData } = get();
+      const res = await axios.patch(`${BASE_URL}/api/products/${id}`, formData);
+      set({ currentProduct: res.data.data });
+      console.log("Este es el current product: " + res.data.data.created_at);
+      toast.success("Producto modificado");
+    } catch (err) {
+      console.log(`Error al tratar de modificar el producto: ${err}`);
       toast.error("Error en el servidor");
     } finally {
       set({ loading: false });
@@ -72,7 +108,7 @@ export const useProductContext = create((set, get) => ({
     set({ loading: true });
 
     try {
-      await axios.delete(`${BASE_URL}/api/products/${id}`);
+      const res = await axios.delete(`${BASE_URL}/api/products/${id}`);
       set((state) => ({
         products: state.products.filter((product) => product.id !== id),
       }));

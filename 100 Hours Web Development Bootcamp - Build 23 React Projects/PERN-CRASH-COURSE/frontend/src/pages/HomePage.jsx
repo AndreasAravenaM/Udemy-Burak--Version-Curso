@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useProductContext } from "../context/useProductContext";
 import { PackageIcon, PlusCircleIcon, RefreshCwIcon } from "lucide-react";
 import ProductCard from "../components/ProductCard";
+import AddProductModal from "../components/AddProductModal";
 
 function HomePage() {
   const { products, loading, success, message, getProducts } =
@@ -17,8 +18,7 @@ function HomePage() {
         <button
           className="btn btn-primary"
           onClick={() =>
-            /*document.getElementById("add_product_modal").showModal()*/
-            null
+            document.getElementById("add_product_modal").showModal()
           }
         >
           <PlusCircleIcon className="size-5 mr-2" />
@@ -29,7 +29,7 @@ function HomePage() {
         </button>
       </div>
 
-      {/*<AddProductModal />*/}
+      <AddProductModal />
 
       {!success && <div className="alert alert-error mb-8">{message}</div>}
 
